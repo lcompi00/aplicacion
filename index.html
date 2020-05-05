@@ -1,0 +1,1183 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        #map {
+            width: 837px;
+            height: 831px;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/Aeropuertos_0.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:20, minZoom:1
+        }).fitBounds([[-172.4544961650043,-183.9939119255755],[196.91973855917269,188.05371894859553]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+		
+var CyclOSM = L.tileLayer('https://dev.{s}.tile.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', {
+	maxZoom: 20,
+	attribution: '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        function pop_Aeropuertos_0(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['type'] !== null ? autolinker.link(feature.properties['type'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['iata_code'] !== null ? autolinker.link(feature.properties['iata_code'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['wikipedia'] !== null ? autolinker.link(feature.properties['wikipedia'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Tipo'] !== null ? autolinker.link(feature.properties['Tipo'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Aeropuertos_0_0() {
+            return {
+                pane: 'pane_Aeropuertos_0',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(231,113,72,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Aeropuertos_0');
+        map.getPane('pane_Aeropuertos_0').style.zIndex = 400;
+        map.getPane('pane_Aeropuertos_0').style['mix-blend-mode'] = 'normal';
+        var layer_Aeropuertos_0 = new L.geoJson(json_Aeropuertos_0, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Aeropuertos_0',
+            layerName: 'layer_Aeropuertos_0',
+            pane: 'pane_Aeropuertos_0',
+            onEachFeature: pop_Aeropuertos_0,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Aeropuertos_0_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Aeropuertos_0);
+        map.addLayer(layer_Aeropuertos_0);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/Aeropuertos_0.png" /> Aeropuertos': layer_Aeropuertos_0,}).addTo(map);
+        setBounds();
+        map.addControl(new L.Control.Search({
+            layer: layer_Aeropuertos_0,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'iata_code'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"wikipedia": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + key).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + key).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + key).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_wikipedia = document.createElement('div');
+            div_wikipedia.id = "div_wikipedia";
+            div_wikipedia.className= "filterselect";
+            document.getElementById("menu").appendChild(div_wikipedia);
+            sel_wikipedia = document.createElement('select');
+            sel_wikipedia.multiple = true;
+            sel_wikipedia.size = 10;
+            sel_wikipedia.id = "sel_wikipedia";
+            var wikipedia_options_str = "<option value='' unselected></option>";
+            sel_wikipedia.onchange = function(){filterFunc()};
+            wikipedia_options_str  += '<option value="NULL">NULL</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/%C3%81stor_Piazzola_International_Airport">http://en.wikipedia.org/wiki/%C3%81stor_Piazzola_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/%C3%9Cr%C3%BCmqi_Diwopu_International_Airport">http://en.wikipedia.org/wiki/%C3%9Cr%C3%BCmqi_Diwopu_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/%C5%81%C3%B3d%C5%BA_W%C5%82adys%C5%82aw_Reymont_Airport">http://en.wikipedia.org/wiki/%C5%81%C3%B3d%C5%BA_W%C5%82adys%C5%82aw_Reymont_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/%C5%A0iauliai_International_Airport">http://en.wikipedia.org/wiki/%C5%A0iauliai_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Aba_Tenna_Dejazmach_Yilma_International_Airport">http://en.wikipedia.org/wiki/Aba_Tenna_Dejazmach_Yilma_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Abdul_Rachman_Saleh_Airport">http://en.wikipedia.org/wiki/Abdul_Rachman_Saleh_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Abraham_Gonz%C3%A1lez_International_Airport">http://en.wikipedia.org/wiki/Abraham_Gonz%C3%A1lez_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Abu_Dhabi_International_Airport">http://en.wikipedia.org/wiki/Abu_Dhabi_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Achmad_Yani_Airport">http://en.wikipedia.org/wiki/Achmad_Yani_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Adana_%C5%9Eakirpa%C5%9Fa_Airport">http://en.wikipedia.org/wiki/Adana_%C5%9Eakirpa%C5%9Fa_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Adelaide_International_Airport">http://en.wikipedia.org/wiki/Adelaide_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Aden_Adde_International_Airport">http://en.wikipedia.org/wiki/Aden_Adde_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Aden_International_Airport">http://en.wikipedia.org/wiki/Aden_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Adnan_Menderes_Airport">http://en.wikipedia.org/wiki/Adnan_Menderes_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Afonso_Pena_International_Airport">http://en.wikipedia.org/wiki/Afonso_Pena_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Agra_Airport">http://en.wikipedia.org/wiki/Agra_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ahwaz_Airport">http://en.wikipedia.org/wiki/Ahwaz_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Albany_International_Airport">http://en.wikipedia.org/wiki/Albany_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Albuquerque_International_Sunport">http://en.wikipedia.org/wiki/Albuquerque_International_Sunport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Alejandro_Velasco_Astete_International_Airport">http://en.wikipedia.org/wiki/Alejandro_Velasco_Astete_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Aleppo_International_Airport">http://en.wikipedia.org/wiki/Aleppo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Alfonso_Bonilla_Arag%C3%B3n_International_Airport">http://en.wikipedia.org/wiki/Alfonso_Bonilla_Arag%C3%B3n_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Alicante_Airport">http://en.wikipedia.org/wiki/Alicante_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Alice_Springs_Airport">http://en.wikipedia.org/wiki/Alice_Springs_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Allahabad_Airport">http://en.wikipedia.org/wiki/Allahabad_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Allama_Iqbal_International_Airport">http://en.wikipedia.org/wiki/Allama_Iqbal_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Almaty_International_Airport">http://en.wikipedia.org/wiki/Almaty_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Almer%C3%ADa_Airport">http://en.wikipedia.org/wiki/Almer%C3%ADa_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Am%C3%ADlcar_Cabral_International_Airport">http://en.wikipedia.org/wiki/Am%C3%ADlcar_Cabral_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Amausi_Airport">http://en.wikipedia.org/wiki/Amausi_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Amsterdam_Schiphol_Airport">http://en.wikipedia.org/wiki/Amsterdam_Schiphol_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Angkor_International_Airport">http://en.wikipedia.org/wiki/Angkor_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Annemasse_Aerodrome">http://en.wikipedia.org/wiki/Annemasse_Aerodrome</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Antalya_Airport">http://en.wikipedia.org/wiki/Antalya_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Antonio_B._Won_Pat_International_Airport">http://en.wikipedia.org/wiki/Antonio_B._Won_Pat_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Antonio_Maceo_Airport">http://en.wikipedia.org/wiki/Antonio_Maceo_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Antwerp_International_Airport">http://en.wikipedia.org/wiki/Antwerp_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Arcata-Eureka_Airport">http://en.wikipedia.org/wiki/Arcata-Eureka_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Arturo_Michelena_International_Airport">http://en.wikipedia.org/wiki/Arturo_Michelena_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ashgabat_Airport">http://en.wikipedia.org/wiki/Ashgabat_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Asmara_International_Airport">http://en.wikipedia.org/wiki/Asmara_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Assiut_Airport">http://en.wikipedia.org/wiki/Assiut_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Astana_International_Airport">http://en.wikipedia.org/wiki/Astana_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Aswan_International_Airport">http://en.wikipedia.org/wiki/Aswan_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Atar_International_Airport">http://en.wikipedia.org/wiki/Atar_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Atat%C3%BCrk_International_Airport">http://en.wikipedia.org/wiki/Atat%C3%BCrk_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Athens_International_Airport">http://en.wikipedia.org/wiki/Athens_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Auckland_International_Airport">http://en.wikipedia.org/wiki/Auckland_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Augusto_C._Sandino_International_Airport">http://en.wikipedia.org/wiki/Augusto_C._Sandino_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Augusto_Severo_International_Airport">http://en.wikipedia.org/wiki/Augusto_Severo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Aurangabad_Airport">http://en.wikipedia.org/wiki/Aurangabad_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Aurel_Vlaicu_International_Airport">http://en.wikipedia.org/wiki/Aurel_Vlaicu_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Austin-Bergstrom_International_Airport">http://en.wikipedia.org/wiki/Austin-Bergstrom_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Baghdad_International_Airport">http://en.wikipedia.org/wiki/Baghdad_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bahrain_International_Airport">http://en.wikipedia.org/wiki/Bahrain_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Baikonur_Cosmodrome">http://en.wikipedia.org/wiki/Baikonur_Cosmodrome</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Baltimore-Washington_International_Thurgood_Marshall_Airport">http://en.wikipedia.org/wiki/Baltimore-Washington_International_Thurgood_Marshall_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bandar_Abbas_International_Airport">http://en.wikipedia.org/wiki/Bandar_Abbas_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bandaranaike_International_Airport">http://en.wikipedia.org/wiki/Bandaranaike_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bangoka_International_Airport">http://en.wikipedia.org/wiki/Bangoka_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bangui_M&apos;Poko_International_Airport">http://en.wikipedia.org/wiki/Bangui_M&apos;Poko_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Banjul_International_Airport">http://en.wikipedia.org/wiki/Banjul_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Barcelona_International_Airport">http://en.wikipedia.org/wiki/Barcelona_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bareilly_Airport">http://en.wikipedia.org/wiki/Bareilly_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Barnaul_Airport">http://en.wikipedia.org/wiki/Barnaul_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Basra_International_Airport">http://en.wikipedia.org/wiki/Basra_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bassel_Al-Assad_International_Airport">http://en.wikipedia.org/wiki/Bassel_Al-Assad_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Baton_Rouge_Metropolitan_Airport">http://en.wikipedia.org/wiki/Baton_Rouge_Metropolitan_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bauerfield_International_Airport">http://en.wikipedia.org/wiki/Bauerfield_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Beijing_Capital_International_Airport">http://en.wikipedia.org/wiki/Beijing_Capital_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Beirut_Rafic_Hariri_International_Airport">http://en.wikipedia.org/wiki/Beirut_Rafic_Hariri_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Belfast_International_Airport">http://en.wikipedia.org/wiki/Belfast_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Belgrade_Nikola_Tesla_Airport">http://en.wikipedia.org/wiki/Belgrade_Nikola_Tesla_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ben_Gurion_International_Airport">http://en.wikipedia.org/wiki/Ben_Gurion_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bengaluru_International_Airport">http://en.wikipedia.org/wiki/Bengaluru_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Benin_Airport">http://en.wikipedia.org/wiki/Benin_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Benina_International_Airport">http://en.wikipedia.org/wiki/Benina_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Benjam%C3%ADn_Matienzo_International_Airport">http://en.wikipedia.org/wiki/Benjam%C3%ADn_Matienzo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bergen_Airport%2C_Flesland">http://en.wikipedia.org/wiki/Bergen_Airport%2C_Flesland</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Berlin-Tegel_International_Airport">http://en.wikipedia.org/wiki/Berlin-Tegel_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bermuda_International_Airport">http://en.wikipedia.org/wiki/Bermuda_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bethel_Airport">http://en.wikipedia.org/wiki/Bethel_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bhopal_Airport">http://en.wikipedia.org/wiki/Bhopal_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Biju_Patnaik_Airport">http://en.wikipedia.org/wiki/Biju_Patnaik_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bilbao_Airport">http://en.wikipedia.org/wiki/Bilbao_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Billings_Logan_International_Airport">http://en.wikipedia.org/wiki/Billings_Logan_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Birmingham_International_Airport_(US)">http://en.wikipedia.org/wiki/Birmingham_International_Airport_(US)</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Birmingham_International_Airport_(United_Kingdom)">http://en.wikipedia.org/wiki/Birmingham_International_Airport_(United_Kingdom)</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Birsa_Munda_Airport">http://en.wikipedia.org/wiki/Birsa_Munda_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bismarck_Municipal_Airport">http://en.wikipedia.org/wiki/Bismarck_Municipal_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Blue_Grass_Airport">http://en.wikipedia.org/wiki/Blue_Grass_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Boa_Vista_International_Airport">http://en.wikipedia.org/wiki/Boa_Vista_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Boise_Airport">http://en.wikipedia.org/wiki/Boise_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bole_International_Airport">http://en.wikipedia.org/wiki/Bole_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bolshoye_Savino_Airport">http://en.wikipedia.org/wiki/Bolshoye_Savino_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bonriki_International_Airport">http://en.wikipedia.org/wiki/Bonriki_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bordeaux_-_M%C3%A9rignac_Airport">http://en.wikipedia.org/wiki/Bordeaux_-_M%C3%A9rignac_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Borg_El_Arab_Airport">http://en.wikipedia.org/wiki/Borg_El_Arab_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Boryspil_International_Airport">http://en.wikipedia.org/wiki/Boryspil_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bouak%C3%A9_Airport">http://en.wikipedia.org/wiki/Bouak%C3%A9_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bradley_International_Airport">http://en.wikipedia.org/wiki/Bradley_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Brandon_Airport">http://en.wikipedia.org/wiki/Brandon_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bras%C3%ADlia_International_Airport">http://en.wikipedia.org/wiki/Bras%C3%ADlia_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bremen_Airport">http://en.wikipedia.org/wiki/Bremen_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Brisbane_Airport">http://en.wikipedia.org/wiki/Brisbane_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bristol_International_Airport">http://en.wikipedia.org/wiki/Bristol_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Broken_Hill_Airport">http://en.wikipedia.org/wiki/Broken_Hill_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Broome_International_Airport">http://en.wikipedia.org/wiki/Broome_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Brownsville/South_Padre_Island_International_Airport">http://en.wikipedia.org/wiki/Brownsville/South_Padre_Island_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Brunei_International_Airport">http://en.wikipedia.org/wiki/Brunei_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Brussels_Airport">http://en.wikipedia.org/wiki/Brussels_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Brussels_South_Charleroi_Airport">http://en.wikipedia.org/wiki/Brussels_South_Charleroi_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Budapest_Ferihegy_International_Airport">http://en.wikipedia.org/wiki/Budapest_Ferihegy_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Buffalo_Niagara_International_Airport">http://en.wikipedia.org/wiki/Buffalo_Niagara_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Bujumbura_International_Airport">http://en.wikipedia.org/wiki/Bujumbura_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Burgas_Airport">http://en.wikipedia.org/wiki/Burgas_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Burlington_International_Airport">http://en.wikipedia.org/wiki/Burlington_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Burnpur_Airport">http://en.wikipedia.org/wiki/Burnpur_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/CFB_Edmonton">http://en.wikipedia.org/wiki/CFB_Edmonton</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cabo_Frio_International_Airport">http://en.wikipedia.org/wiki/Cabo_Frio_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cadjehoun_Airport">http://en.wikipedia.org/wiki/Cadjehoun_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cairns_International_Airport">http://en.wikipedia.org/wiki/Cairns_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cairo_International_Airport">http://en.wikipedia.org/wiki/Cairo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Calgary_International_Airport">http://en.wikipedia.org/wiki/Calgary_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Calicut_International_Airport">http://en.wikipedia.org/wiki/Calicut_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Campo_Grande_International_Airport">http://en.wikipedia.org/wiki/Campo_Grande_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Canberra_International_Airport">http://en.wikipedia.org/wiki/Canberra_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Canc%C3%BAn_International_Airport">http://en.wikipedia.org/wiki/Canc%C3%BAn_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cannes_%E2%80%93_Mandelieu_Airport">http://en.wikipedia.org/wiki/Cannes_%E2%80%93_Mandelieu_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cape_Town_International_Airport">http://en.wikipedia.org/wiki/Cape_Town_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cardiff_Airport">http://en.wikipedia.org/wiki/Cardiff_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Carlos_Ibanez_Del_Campo_International_Airport">http://en.wikipedia.org/wiki/Carlos_Ibanez_Del_Campo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Carlos_Rovirosa_P%C3%A9rez_International_Airport">http://en.wikipedia.org/wiki/Carlos_Rovirosa_P%C3%A9rez_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Carrasco_International_Airport">http://en.wikipedia.org/wiki/Carrasco_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Carriel_Sur_International_Airport">http://en.wikipedia.org/wiki/Carriel_Sur_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Casablanca-Anfa_Airport">http://en.wikipedia.org/wiki/Casablanca-Anfa_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cascais_Aerodrome">http://en.wikipedia.org/wiki/Cascais_Aerodrome</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Casper/Natrona_County_International_Airport">http://en.wikipedia.org/wiki/Casper/Natrona_County_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cassidy_International_Airport">http://en.wikipedia.org/wiki/Cassidy_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Catania-Fontanarossa_Airport">http://en.wikipedia.org/wiki/Catania-Fontanarossa_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cayenne-Rochambeau_Airport">http://en.wikipedia.org/wiki/Cayenne-Rochambeau_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cerro_Moreno_International_Airport">http://en.wikipedia.org/wiki/Cerro_Moreno_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ch%C3%A2lons_Vatry_Airport">http://en.wikipedia.org/wiki/Ch%C3%A2lons_Vatry_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ch%C5%ABbu_Centrair_International_Airport">http://en.wikipedia.org/wiki/Ch%C5%ABbu_Centrair_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Chacalluta_Airport">http://en.wikipedia.org/wiki/Chacalluta_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Chandigarh_Airport">http://en.wikipedia.org/wiki/Chandigarh_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Changchun_Longjia_International_Airport">http://en.wikipedia.org/wiki/Changchun_Longjia_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Changsha_airport">http://en.wikipedia.org/wiki/Changsha_airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Charles_de_Gaulle_International_Airport">http://en.wikipedia.org/wiki/Charles_de_Gaulle_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Charleston_International_Airport">http://en.wikipedia.org/wiki/Charleston_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Charlotte/Douglas_International_Airport">http://en.wikipedia.org/wiki/Charlotte/Douglas_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Charlottetown_Airport">http://en.wikipedia.org/wiki/Charlottetown_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cheddi_Jagan_International_Airport">http://en.wikipedia.org/wiki/Cheddi_Jagan_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Chelyabinsk_Airport">http://en.wikipedia.org/wiki/Chelyabinsk_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Chengdu_Shuangliu_International_Airport">http://en.wikipedia.org/wiki/Chengdu_Shuangliu_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Chennai_International_Airport">http://en.wikipedia.org/wiki/Chennai_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cheongju_International_Airport">http://en.wikipedia.org/wiki/Cheongju_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Chetumal_International_Airport">http://en.wikipedia.org/wiki/Chetumal_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Chhatrapati_Shivaji_International_Airport">http://en.wikipedia.org/wiki/Chhatrapati_Shivaji_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Chi%C5%9Fin%C4%83u_International_Airport">http://en.wikipedia.org/wiki/Chi%C5%9Fin%C4%83u_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Chiang_Mai_International_Airport">http://en.wikipedia.org/wiki/Chiang_Mai_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Chicago_Midway_International_Airport">http://en.wikipedia.org/wiki/Chicago_Midway_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Chileka_International_Airport">http://en.wikipedia.org/wiki/Chileka_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Chinggis_Khaan_International_Airport">http://en.wikipedia.org/wiki/Chinggis_Khaan_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Chongqing_Jiangbei_International_Airport">http://en.wikipedia.org/wiki/Chongqing_Jiangbei_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Christchurch_International_Airport">http://en.wikipedia.org/wiki/Christchurch_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Churchill_Airport">http://en.wikipedia.org/wiki/Churchill_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Chuuk_International_Airport">http://en.wikipedia.org/wiki/Chuuk_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cibao_International_Airport">http://en.wikipedia.org/wiki/Cibao_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cincinnati/Northern_Kentucky_International_Airport">http://en.wikipedia.org/wiki/Cincinnati/Northern_Kentucky_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Clark_International_Airport">http://en.wikipedia.org/wiki/Clark_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cleveland_Hopkins_International_Airport">http://en.wikipedia.org/wiki/Cleveland_Hopkins_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cluj-Napoca_International_Airport">http://en.wikipedia.org/wiki/Cluj-Napoca_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cochin_International_Airport">http://en.wikipedia.org/wiki/Cochin_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cocos_(Keeling)_Islands_Airport">http://en.wikipedia.org/wiki/Cocos_(Keeling)_Islands_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Coimbatore_Airport">http://en.wikipedia.org/wiki/Coimbatore_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Coleman_A._Young_International_Airport">http://en.wikipedia.org/wiki/Coleman_A._Young_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cologne_Bonn_Airport">http://en.wikipedia.org/wiki/Cologne_Bonn_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Colorado_Springs_Airport">http://en.wikipedia.org/wiki/Colorado_Springs_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Columbia_Metropolitan_Airport">http://en.wikipedia.org/wiki/Columbia_Metropolitan_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Comandante_Armando_Tola_International_Airport">http://en.wikipedia.org/wiki/Comandante_Armando_Tola_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Comodoro_Arturo_Merino_Ben%C3%ADtez_International_Airport">http://en.wikipedia.org/wiki/Comodoro_Arturo_Merino_Ben%C3%ADtez_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Conakry_International_Airport">http://en.wikipedia.org/wiki/Conakry_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Congonhas-S%C3%A3o_Paulo_International_Airport">http://en.wikipedia.org/wiki/Congonhas-S%C3%A3o_Paulo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Copenhagen_Airport">http://en.wikipedia.org/wiki/Copenhagen_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Corfu_International_Airport">http://en.wikipedia.org/wiki/Corfu_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cork_Airport">http://en.wikipedia.org/wiki/Cork_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Corpus_Christi_International_Airport">http://en.wikipedia.org/wiki/Corpus_Christi_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Corumba_International_Airport">http://en.wikipedia.org/wiki/Corumba_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cozumel_International_Airport">http://en.wikipedia.org/wiki/Cozumel_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Cuscatlan_International_Airport">http://en.wikipedia.org/wiki/Cuscatlan_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/D%C3%BCsseldorf_International_Airport">http://en.wikipedia.org/wiki/D%C3%BCsseldorf_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Da_Nang_International_Airport">http://en.wikipedia.org/wiki/Da_Nang_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Daegu_Airport">http://en.wikipedia.org/wiki/Daegu_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Dakar-Yoff-L%C3%A9opold_S%C3%A9dar_Senghor_International_Airport">http://en.wikipedia.org/wiki/Dakar-Yoff-L%C3%A9opold_S%C3%A9dar_Senghor_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Dalian_Zhoushuizi_International_Airport">http://en.wikipedia.org/wiki/Dalian_Zhoushuizi_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Dallas-Fort_Worth_International_Airport">http://en.wikipedia.org/wiki/Dallas-Fort_Worth_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Dallas_Love_Field">http://en.wikipedia.org/wiki/Dallas_Love_Field</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Damascus_International_Airport">http://en.wikipedia.org/wiki/Damascus_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Dane_County_Regional_Airport">http://en.wikipedia.org/wiki/Dane_County_Regional_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Darwin_International_Airport">http://en.wikipedia.org/wiki/Darwin_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Dawson_Creek_Airport">http://en.wikipedia.org/wiki/Dawson_Creek_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Dayton_International_Airport">http://en.wikipedia.org/wiki/Dayton_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Deadhorse_Airport">http://en.wikipedia.org/wiki/Deadhorse_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Deauville_-_Saint-Gatien_Airport">http://en.wikipedia.org/wiki/Deauville_-_Saint-Gatien_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Del_Baj%C3%ADo_International_Airport">http://en.wikipedia.org/wiki/Del_Baj%C3%ADo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Del_Norte_International_Airport">http://en.wikipedia.org/wiki/Del_Norte_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Denver_International_Airport">http://en.wikipedia.org/wiki/Denver_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Deputado_Lu%C3%ADs_Eduardo_Magalh%C3%A3es_International_Airport">http://en.wikipedia.org/wiki/Deputado_Lu%C3%ADs_Eduardo_Magalh%C3%A3es_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Des_Moines_International_Airport">http://en.wikipedia.org/wiki/Des_Moines_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Detroit_Metropolitan_Wayne_County_Airport">http://en.wikipedia.org/wiki/Detroit_Metropolitan_Wayne_County_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Devi_Ahilyabai_Holkar_International_Airport">http://en.wikipedia.org/wiki/Devi_Ahilyabai_Holkar_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Dhahran_International_Airport">http://en.wikipedia.org/wiki/Dhahran_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Dhamial_Army_Airbase">http://en.wikipedia.org/wiki/Dhamial_Army_Airbase</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Diego_Aracena_International_Airport">http://en.wikipedia.org/wiki/Diego_Aracena_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Diori_Hamani_International_Airport">http://en.wikipedia.org/wiki/Diori_Hamani_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Djibouti-Ambouli_International_Airport">http://en.wikipedia.org/wiki/Djibouti-Ambouli_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Dnipropetrovsk_International_Airport">http://en.wikipedia.org/wiki/Dnipropetrovsk_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Doha_International_Airport">http://en.wikipedia.org/wiki/Doha_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Domodedovo_International_Airport">http://en.wikipedia.org/wiki/Domodedovo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Don_Miguel_Hidalgo_y_Costilla_International_Airport">http://en.wikipedia.org/wiki/Don_Miguel_Hidalgo_y_Costilla_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Don_Mueang_International_Airport">http://en.wikipedia.org/wiki/Don_Mueang_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Donetsk_International_Airport">http://en.wikipedia.org/wiki/Donetsk_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Dr._Babasaheb_Ambedkar_International_Airport">http://en.wikipedia.org/wiki/Dr._Babasaheb_Ambedkar_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Dresden_Airport">http://en.wikipedia.org/wiki/Dresden_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Dubai_International_Airport">http://en.wikipedia.org/wiki/Dubai_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Dubbo_Airport">http://en.wikipedia.org/wiki/Dubbo_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Dublin_Airport">http://en.wikipedia.org/wiki/Dublin_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Dunedin_International_Airport">http://en.wikipedia.org/wiki/Dunedin_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Durban_International_Airport">http://en.wikipedia.org/wiki/Durban_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Dzaoudzi_Pamandzi_International_Airport">http://en.wikipedia.org/wiki/Dzaoudzi_Pamandzi_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Edinburgh_Airport">http://en.wikipedia.org/wiki/Edinburgh_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Edmonton_City_Centre_(Blatchford_Field)_Airport">http://en.wikipedia.org/wiki/Edmonton_City_Centre_(Blatchford_Field)_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Edmonton_International_Airport">http://en.wikipedia.org/wiki/Edmonton_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Eduardo_Gomes_International_Airport">http://en.wikipedia.org/wiki/Eduardo_Gomes_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/El_Alto_International_Airport">http://en.wikipedia.org/wiki/El_Alto_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/El_Dorado_International_Airport">http://en.wikipedia.org/wiki/El_Dorado_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/El_Paso_International_Airport">http://en.wikipedia.org/wiki/El_Paso_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/El_Tepual_Airport">http://en.wikipedia.org/wiki/El_Tepual_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Eldoret_International_Airport">http://en.wikipedia.org/wiki/Eldoret_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Elko_Regional_Airport">http://en.wikipedia.org/wiki/Elko_Regional_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Enrique_Malek_International_Airport">http://en.wikipedia.org/wiki/Enrique_Malek_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ensenada_Airport">http://en.wikipedia.org/wiki/Ensenada_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Entebbe_International_Airport">http://en.wikipedia.org/wiki/Entebbe_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Eppley_Airfield">http://en.wikipedia.org/wiki/Eppley_Airfield</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ernesto_Cortissoz_International_Airport">http://en.wikipedia.org/wiki/Ernesto_Cortissoz_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Esenbo%C4%9Fa_International_Airport">http://en.wikipedia.org/wiki/Esenbo%C4%9Fa_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Eurico_de_Aguiar_Salles_Airport">http://en.wikipedia.org/wiki/Eurico_de_Aguiar_Salles_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Exuma_International_Airport">http://en.wikipedia.org/wiki/Exuma_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Faa&apos;a_International_Airport">http://en.wikipedia.org/wiki/Faa&apos;a_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Fairbanks_International_Airport">http://en.wikipedia.org/wiki/Fairbanks_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Faisalabad_International_Airport">http://en.wikipedia.org/wiki/Faisalabad_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Faleolo_International_Airport">http://en.wikipedia.org/wiki/Faleolo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Falls_International_Airport">http://en.wikipedia.org/wiki/Falls_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Federal_de_Bachigualato_International_Airport">http://en.wikipedia.org/wiki/Federal_de_Bachigualato_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Federal_del_Valle_del_Fuerte_International_Airport">http://en.wikipedia.org/wiki/Federal_del_Valle_del_Fuerte_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Flagstaff_Pulliam_Airport">http://en.wikipedia.org/wiki/Flagstaff_Pulliam_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Fort_Lauderdale-Hollywood_International_Airport">http://en.wikipedia.org/wiki/Fort_Lauderdale-Hollywood_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Fort_McMurray_Airport">http://en.wikipedia.org/wiki/Fort_McMurray_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Fort_Smith_Airport">http://en.wikipedia.org/wiki/Fort_Smith_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Fort_St._John_Airport">http://en.wikipedia.org/wiki/Fort_St._John_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Fort_Worth_Meacham_International_Airport">http://en.wikipedia.org/wiki/Fort_Worth_Meacham_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Foz_do_Igua%C3%A7u_International_Airport">http://en.wikipedia.org/wiki/Foz_do_Igua%C3%A7u_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Francisco_Bangoy_International_Airport">http://en.wikipedia.org/wiki/Francisco_Bangoy_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Francisco_S%C3%A1_Carneiro_Airport">http://en.wikipedia.org/wiki/Francisco_S%C3%A1_Carneiro_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Francisco_Sarabia_International_Airport">http://en.wikipedia.org/wiki/Francisco_Sarabia_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Frankfurt_Airport">http://en.wikipedia.org/wiki/Frankfurt_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Fresno_Yosemite_International_Airport">http://en.wikipedia.org/wiki/Fresno_Yosemite_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Fua&apos;amotu_International_Airport">http://en.wikipedia.org/wiki/Fua&apos;amotu_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Fukuoka_Airport">http://en.wikipedia.org/wiki/Fukuoka_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Funafuti_International_Airport">http://en.wikipedia.org/wiki/Funafuti_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Fuzhou_Changle_International_Airport">http://en.wikipedia.org/wiki/Fuzhou_Changle_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Galileo_Galilei_International_Airport">http://en.wikipedia.org/wiki/Galileo_Galilei_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Gander_International_Airport">http://en.wikipedia.org/wiki/Gander_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Gandhinagar_Airport">http://en.wikipedia.org/wiki/Gandhinagar_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Gardermoen_Air_Station">http://en.wikipedia.org/wiki/Gardermoen_Air_Station</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Garoua_International_Airport">http://en.wikipedia.org/wiki/Garoua_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Gary/Chicago_International_Airport">http://en.wikipedia.org/wiki/Gary/Chicago_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Gda%C5%84sk_Lech_Wa%C5%82%C4%99sa_Airport">http://en.wikipedia.org/wiki/Gda%C5%84sk_Lech_Wa%C5%82%C4%99sa_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/General_Abelardo_L._Rodr%C3%ADguez_International_Airport">http://en.wikipedia.org/wiki/General_Abelardo_L._Rodr%C3%ADguez_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/General_Francisco_Javier_Mina_International_Airport">http://en.wikipedia.org/wiki/General_Francisco_Javier_Mina_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/General_Guadalupe_Victoria_International_Airport">http://en.wikipedia.org/wiki/General_Guadalupe_Victoria_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/General_Heriberto_Jara_International_Airport">http://en.wikipedia.org/wiki/General_Heriberto_Jara_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/General_Ignacio_Pesqueira_Garcia_International_Airport">http://en.wikipedia.org/wiki/General_Ignacio_Pesqueira_Garcia_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/General_Jos%C3%A9_Mar%C3%ADa_Y%C3%A1%C3%B1ez_International_Airport">http://en.wikipedia.org/wiki/General_Jos%C3%A9_Mar%C3%ADa_Y%C3%A1%C3%B1ez_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/General_Juan_N._%C3%81lvarez_International_Airport">http://en.wikipedia.org/wiki/General_Juan_N._%C3%81lvarez_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/General_Mitchell_International_Airport">http://en.wikipedia.org/wiki/General_Mitchell_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/General_Rafael_Buelna_International_Airport">http://en.wikipedia.org/wiki/General_Rafael_Buelna_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/General_Roberto_Fierro_Villalobos_International_Airport">http://en.wikipedia.org/wiki/General_Roberto_Fierro_Villalobos_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/General_Rodolfo_S%C3%A1nchez_Taboada_International_Airport">http://en.wikipedia.org/wiki/General_Rodolfo_S%C3%A1nchez_Taboada_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/General_Servando_Canales_International_Airport">http://en.wikipedia.org/wiki/General_Servando_Canales_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Geneva_Cointrin_International_Airport">http://en.wikipedia.org/wiki/Geneva_Cointrin_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/George_Bush_Intercontinental_Airport">http://en.wikipedia.org/wiki/George_Bush_Intercontinental_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Gerald_R._Ford_International_Airport">http://en.wikipedia.org/wiki/Gerald_R._Ford_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Gerrard_Smith_International_Airport">http://en.wikipedia.org/wiki/Gerrard_Smith_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Gibraltar_Airport">http://en.wikipedia.org/wiki/Gibraltar_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Gimhae_International_Airport">http://en.wikipedia.org/wiki/Gimhae_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Gimpo_International_Airport">http://en.wikipedia.org/wiki/Gimpo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Glasgow_International_Airport">http://en.wikipedia.org/wiki/Glasgow_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Glasgow_Prestwick_International_Airport">http://en.wikipedia.org/wiki/Glasgow_Prestwick_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Gobernador_Horacio_Guzm%C3%A1n_International_Airport">http://en.wikipedia.org/wiki/Gobernador_Horacio_Guzm%C3%A1n_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Gold_Coast_Airport">http://en.wikipedia.org/wiki/Gold_Coast_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Golos%C3%B3n_International_Airport">http://en.wikipedia.org/wiki/Golos%C3%B3n_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Goma_International_Airport">http://en.wikipedia.org/wiki/Goma_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Gothenburg-Landvetter_Airport">http://en.wikipedia.org/wiki/Gothenburg-Landvetter_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Governador_Jorge_Teixeira_de_Oliveira_International_Airport">http://en.wikipedia.org/wiki/Governador_Jorge_Teixeira_de_Oliveira_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Governor_Francisco_Gabrielli_International_Airport">http://en.wikipedia.org/wiki/Governor_Francisco_Gabrielli_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Gran_Canaria_Airport">http://en.wikipedia.org/wiki/Gran_Canaria_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Grand_Bahama_International_Airport">http://en.wikipedia.org/wiki/Grand_Bahama_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Grantley_Adams_International_Airport">http://en.wikipedia.org/wiki/Grantley_Adams_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Great_Falls_International_Airport">http://en.wikipedia.org/wiki/Great_Falls_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Greater_Moncton_International_Airport">http://en.wikipedia.org/wiki/Greater_Moncton_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Greater_Rochester_International_Airport">http://en.wikipedia.org/wiki/Greater_Rochester_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Guangzhou_Baiyun_International_Airport">http://en.wikipedia.org/wiki/Guangzhou_Baiyun_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Guarani_International_Airport">http://en.wikipedia.org/wiki/Guarani_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Guararapes_International_Airport">http://en.wikipedia.org/wiki/Guararapes_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Guiana_Space_Centre">http://en.wikipedia.org/wiki/Guiana_Space_Centre</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Guilin_Liangjiang_International_Airport">http://en.wikipedia.org/wiki/Guilin_Liangjiang_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Gwalior_Airport">http://en.wikipedia.org/wiki/Gwalior_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Gwangju_Airport">http://en.wikipedia.org/wiki/Gwangju_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Habib_Bourguiba_International_Airport">http://en.wikipedia.org/wiki/Habib_Bourguiba_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Halifax_International_Airport">http://en.wikipedia.org/wiki/Halifax_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hamburg_Airport">http://en.wikipedia.org/wiki/Hamburg_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hamilton_International_Airport">http://en.wikipedia.org/wiki/Hamilton_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hangzhou_Xiaoshan_International_Airport">http://en.wikipedia.org/wiki/Hangzhou_Xiaoshan_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Harare_International_Airport">http://en.wikipedia.org/wiki/Harare_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Harbin_Taiping_International_Airport">http://en.wikipedia.org/wiki/Harbin_Taiping_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hartsfield-Jackson_Atlanta_International_Airport">http://en.wikipedia.org/wiki/Hartsfield-Jackson_Atlanta_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hat_Yai_International_Airport">http://en.wikipedia.org/wiki/Hat_Yai_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hato_International_Airport">http://en.wikipedia.org/wiki/Hato_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hector_International_Airport">http://en.wikipedia.org/wiki/Hector_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hefei_Luogang_International_Airport">http://en.wikipedia.org/wiki/Hefei_Luogang_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Helena_Regional_Airport">http://en.wikipedia.org/wiki/Helena_Regional_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Helsinki-Malmi_Airport">http://en.wikipedia.org/wiki/Helsinki-Malmi_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Helsinki-Vantaa_Airport">http://en.wikipedia.org/wiki/Helsinki-Vantaa_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Heraklion_International_Airport%2C_%22Nikos_Kazantzakis%22">http://en.wikipedia.org/wiki/Heraklion_International_Airport%2C_%22Nikos_Kazantzakis%22</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Herc%C3%ADlio_Luz_International_Airport">http://en.wikipedia.org/wiki/Herc%C3%ADlio_Luz_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hermanos_Serd%C3%A1n_International_Airport">http://en.wikipedia.org/wiki/Hermanos_Serd%C3%A1n_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hermes_Quijada_Airport">http://en.wikipedia.org/wiki/Hermes_Quijada_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hewanorra_International_Airport">http://en.wikipedia.org/wiki/Hewanorra_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Heydar_Aliyev_International_Airport">http://en.wikipedia.org/wiki/Heydar_Aliyev_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hilo_International_Airport">http://en.wikipedia.org/wiki/Hilo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hindon_Air_Force_Station">http://en.wikipedia.org/wiki/Hindon_Air_Force_Station</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hiroshima-Nishi_Airport">http://en.wikipedia.org/wiki/Hiroshima-Nishi_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hobart_International_Airport">http://en.wikipedia.org/wiki/Hobart_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hodeida_International_Airport">http://en.wikipedia.org/wiki/Hodeida_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hohhot_Baita_International_Airport">http://en.wikipedia.org/wiki/Hohhot_Baita_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hong_Kong_International_Airport">http://en.wikipedia.org/wiki/Hong_Kong_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Honiara_International_Airport">http://en.wikipedia.org/wiki/Honiara_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Honolulu_International_Airport">http://en.wikipedia.org/wiki/Honolulu_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hotan_Airport">http://en.wikipedia.org/wiki/Hotan_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Houari_Boumedienne_Airport">http://en.wikipedia.org/wiki/Houari_Boumedienne_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hubli_Airport">http://en.wikipedia.org/wiki/Hubli_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Huntsville_International_Airport">http://en.wikipedia.org/wiki/Huntsville_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Hurghada_International_Airport">http://en.wikipedia.org/wiki/Hurghada_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Husein_Sastranegara_International_Airport">http://en.wikipedia.org/wiki/Husein_Sastranegara_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ibadan_Airport">http://en.wikipedia.org/wiki/Ibadan_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ignacio_Agramonte_International_Airport">http://en.wikipedia.org/wiki/Ignacio_Agramonte_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ilorin_International_Airport">http://en.wikipedia.org/wiki/Ilorin_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Imperial_County_Airport">http://en.wikipedia.org/wiki/Imperial_County_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Incheon_International_Airport">http://en.wikipedia.org/wiki/Incheon_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Indianapolis_International_Airport">http://en.wikipedia.org/wiki/Indianapolis_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Indira_Gandhi_International_Airport">http://en.wikipedia.org/wiki/Indira_Gandhi_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ing._Alberto_Acu%C3%B1a_Ongay_International_Airport">http://en.wikipedia.org/wiki/Ing._Alberto_Acu%C3%B1a_Ongay_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ingeniero_Ambrosio_L.V._Taravella_International_Airport">http://en.wikipedia.org/wiki/Ingeniero_Ambrosio_L.V._Taravella_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Inverness_Airport">http://en.wikipedia.org/wiki/Inverness_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Iqaluit_Airport">http://en.wikipedia.org/wiki/Iqaluit_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Irkutsk_Airport">http://en.wikipedia.org/wiki/Irkutsk_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Irkutsk_Northwest_Airport">http://en.wikipedia.org/wiki/Irkutsk_Northwest_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Isfahan_International_Airport">http://en.wikipedia.org/wiki/Isfahan_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Islamabad_International_Airport">http://en.wikipedia.org/wiki/Islamabad_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ivato_Airport">http://en.wikipedia.org/wiki/Ivato_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/JAGS_McCartney_International_Airport">http://en.wikipedia.org/wiki/JAGS_McCartney_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Jabalpur_Airport">http://en.wikipedia.org/wiki/Jabalpur_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Jacinto_Lara_International_Airport">http://en.wikipedia.org/wiki/Jacinto_Lara_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Jackson-Evers_International_Airport">http://en.wikipedia.org/wiki/Jackson-Evers_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Jacksons_International_Airport">http://en.wikipedia.org/wiki/Jacksons_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Jacksonville_International_Airport">http://en.wikipedia.org/wiki/Jacksonville_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Jaipur_International_Airport">http://en.wikipedia.org/wiki/Jaipur_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Jammu_Airport">http://en.wikipedia.org/wiki/Jammu_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Jeju_International_Airport">http://en.wikipedia.org/wiki/Jeju_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Jiamusi_Dongjiao_Airport">http://en.wikipedia.org/wiki/Jiamusi_Dongjiao_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Jinnah_International_Airport">http://en.wikipedia.org/wiki/Jinnah_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Jo%C3%A3o_Paulo_II_Airport">http://en.wikipedia.org/wiki/Jo%C3%A3o_Paulo_II_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Jodhpur_Airport">http://en.wikipedia.org/wiki/Jodhpur_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Johan_Adolf_Pengel_International_Airport">http://en.wikipedia.org/wiki/Johan_Adolf_Pengel_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/John_C._Munro_Hamilton_International_Airport">http://en.wikipedia.org/wiki/John_C._Munro_Hamilton_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/John_F._Kennedy_International_Airport">http://en.wikipedia.org/wiki/John_F._Kennedy_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/John_F._Kennedy_Space_Center">http://en.wikipedia.org/wiki/John_F._Kennedy_Space_Center</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/John_Paul_II_International_Airport_Krak%C3%B3w-Balice">http://en.wikipedia.org/wiki/John_Paul_II_International_Airport_Krak%C3%B3w-Balice</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/John_Wayne_Airport">http://en.wikipedia.org/wiki/John_Wayne_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Joinville-Lauro_Carneiro_de_Loyola_Airport">http://en.wikipedia.org/wiki/Joinville-Lauro_Carneiro_de_Loyola_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Jomo_Kenyatta_International_Airport">http://en.wikipedia.org/wiki/Jomo_Kenyatta_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Jorge_Ch%C3%A1vez_International_Airport">http://en.wikipedia.org/wiki/Jorge_Ch%C3%A1vez_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Jos%C3%A9_Joaqu%C3%ADn_de_Olmedo_International_Airport">http://en.wikipedia.org/wiki/Jos%C3%A9_Joaqu%C3%ADn_de_Olmedo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Jos%C3%A9_Mar%C3%ADa_C%C3%B3rdova_International_Airport">http://en.wikipedia.org/wiki/Jos%C3%A9_Mar%C3%ADa_C%C3%B3rdova_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Jos%C3%A9_Mart%C3%AD_International_Airport">http://en.wikipedia.org/wiki/Jos%C3%A9_Mart%C3%AD_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Joshua_Mqabuko_Nkomo_International_Airport">http://en.wikipedia.org/wiki/Joshua_Mqabuko_Nkomo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Juan_Gualberto_G%C3%B3mez_Airport">http://en.wikipedia.org/wiki/Juan_Gualberto_G%C3%B3mez_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Juana_Azurduy_de_Padilla_International_Airport">http://en.wikipedia.org/wiki/Juana_Azurduy_de_Padilla_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Juanda_International_Airport">http://en.wikipedia.org/wiki/Juanda_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Julius_Nyerere_International_Airport">http://en.wikipedia.org/wiki/Julius_Nyerere_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Juneau_International_Airport">http://en.wikipedia.org/wiki/Juneau_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kabul_International_Airport">http://en.wikipedia.org/wiki/Kabul_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kaduna_Airport">http://en.wikipedia.org/wiki/Kaduna_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kahului_Airport">http://en.wikipedia.org/wiki/Kahului_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kamloops_Airport">http://en.wikipedia.org/wiki/Kamloops_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kananga_Airport">http://en.wikipedia.org/wiki/Kananga_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kangerlussuaq_Airport">http://en.wikipedia.org/wiki/Kangerlussuaq_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kanpur_Airport">http://en.wikipedia.org/wiki/Kanpur_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kansai_International_Airport">http://en.wikipedia.org/wiki/Kansai_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kansas_City_International_Airport">http://en.wikipedia.org/wiki/Kansas_City_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kaohsiung_International_Airport">http://en.wikipedia.org/wiki/Kaohsiung_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kashgar_Airport">http://en.wikipedia.org/wiki/Kashgar_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kazan_International_Airport">http://en.wikipedia.org/wiki/Kazan_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kenitra_Air_Base">http://en.wikipedia.org/wiki/Kenitra_Air_Base</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kharkiv_International_Airport">http://en.wikipedia.org/wiki/Kharkiv_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Khartoum_International_Airport">http://en.wikipedia.org/wiki/Khartoum_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kiev_International_Airport">http://en.wikipedia.org/wiki/Kiev_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kigali_International_Airport">http://en.wikipedia.org/wiki/Kigali_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kilimanjaro_International_Airport">http://en.wikipedia.org/wiki/Kilimanjaro_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/King_Abdulaziz_International_Airport">http://en.wikipedia.org/wiki/King_Abdulaziz_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/King_Khalid_International_Airport">http://en.wikipedia.org/wiki/King_Khalid_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kingsford_Smith_International_Airport">http://en.wikipedia.org/wiki/Kingsford_Smith_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kinshasa_International_Airport">http://en.wikipedia.org/wiki/Kinshasa_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kirkenes_Airport%2C_H%C3%B8ybuktmoen">http://en.wikipedia.org/wiki/Kirkenes_Airport%2C_H%C3%B8ybuktmoen</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kirkwall_Airport">http://en.wikipedia.org/wiki/Kirkwall_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kiruna_Airport">http://en.wikipedia.org/wiki/Kiruna_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kodiak_Airport">http://en.wikipedia.org/wiki/Kodiak_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Koltsovo_Airport">http://en.wikipedia.org/wiki/Koltsovo_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kona_International_Airport">http://en.wikipedia.org/wiki/Kona_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Konya_Airport">http://en.wikipedia.org/wiki/Konya_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kosrae_International_Airport">http://en.wikipedia.org/wiki/Kosrae_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kota_Airport">http://en.wikipedia.org/wiki/Kota_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kota_Kinabalu_International_Airport">http://en.wikipedia.org/wiki/Kota_Kinabalu_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kotoka_International_Airport">http://en.wikipedia.org/wiki/Kotoka_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kuala_Lumpur_International_Airport">http://en.wikipedia.org/wiki/Kuala_Lumpur_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kuching_International_Airport">http://en.wikipedia.org/wiki/Kuching_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kumasi_Airport">http://en.wikipedia.org/wiki/Kumasi_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kunming_Wujiaba_International_Airport">http://en.wikipedia.org/wiki/Kunming_Wujiaba_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kurumoch_International_Airport">http://en.wikipedia.org/wiki/Kurumoch_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kuujjuaq_Airport">http://en.wikipedia.org/wiki/Kuujjuaq_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Kuwait_International_Airport">http://en.wikipedia.org/wiki/Kuwait_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/LA/Ontario_International_Airport">http://en.wikipedia.org/wiki/LA/Ontario_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/LaGuardia_Airport">http://en.wikipedia.org/wiki/LaGuardia_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/La_Aurora_International_Airport">http://en.wikipedia.org/wiki/La_Aurora_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/La_Chinita_International_Airport">http://en.wikipedia.org/wiki/La_Chinita_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/La_Plata_Airport">http://en.wikipedia.org/wiki/La_Plata_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/La_Tontouta_International_Airport">http://en.wikipedia.org/wiki/La_Tontouta_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lake_Hood_Seaplane_Base">http://en.wikipedia.org/wiki/Lake_Hood_Seaplane_Base</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lambert-St._Louis_International_Airport">http://en.wikipedia.org/wiki/Lambert-St._Louis_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lanzhou_Zhongchuan_Airport">http://en.wikipedia.org/wiki/Lanzhou_Zhongchuan_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Laoag_International_Airport">http://en.wikipedia.org/wiki/Laoag_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Laredo_International_Airport">http://en.wikipedia.org/wiki/Laredo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Las_Am%C3%A9ricas_International_Airport">http://en.wikipedia.org/wiki/Las_Am%C3%A9ricas_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Leeds_Bradford_International_Airport">http://en.wikipedia.org/wiki/Leeds_Bradford_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Leonardo_da_Vinci_Airport">http://en.wikipedia.org/wiki/Leonardo_da_Vinci_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lhasa_Gonggar_Airport">http://en.wikipedia.org/wiki/Lhasa_Gonggar_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Libreville_International_Airport">http://en.wikipedia.org/wiki/Libreville_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lic._Adolfo_L%C3%B3pez_Mateos_International_Airport">http://en.wikipedia.org/wiki/Lic._Adolfo_L%C3%B3pez_Mateos_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lic._Jes%C3%BAs_Ter%C3%A1n_Peredo_International_Airport">http://en.wikipedia.org/wiki/Lic._Jes%C3%BAs_Ter%C3%A1n_Peredo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lihu&apos;e_Airport">http://en.wikipedia.org/wiki/Lihu&apos;e_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lille_Airport">http://en.wikipedia.org/wiki/Lille_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lilongwe_International_Airport">http://en.wikipedia.org/wiki/Lilongwe_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Linate_Airport">http://en.wikipedia.org/wiki/Linate_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lisbon_Portela_Airport">http://en.wikipedia.org/wiki/Lisbon_Portela_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/List_of_airports_in_Cyprus">http://en.wikipedia.org/wiki/List_of_airports_in_Cyprus</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Little_Rock_National_Airport">http://en.wikipedia.org/wiki/Little_Rock_National_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Liverpool_John_Lennon_Airport">http://en.wikipedia.org/wiki/Liverpool_John_Lennon_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ljubljana_Jo%C5%BEe_Pu%C4%8Dnik_Airport">http://en.wikipedia.org/wiki/Ljubljana_Jo%C5%BEe_Pu%C4%8Dnik_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Logan_International_Airport">http://en.wikipedia.org/wiki/Logan_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lok_Nayak_Jayaprakash_Airport">http://en.wikipedia.org/wiki/Lok_Nayak_Jayaprakash_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lokpriya_Gopinath_Bordoloi_International_Airport">http://en.wikipedia.org/wiki/Lokpriya_Gopinath_Bordoloi_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lom%C3%A9-Tokoin_Airport">http://en.wikipedia.org/wiki/Lom%C3%A9-Tokoin_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/London_Gatwick_Airport">http://en.wikipedia.org/wiki/London_Gatwick_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/London_Heathrow_Airport">http://en.wikipedia.org/wiki/London_Heathrow_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/London_Luton_Airport">http://en.wikipedia.org/wiki/London_Luton_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Los_Angeles_International_Airport">http://en.wikipedia.org/wiki/Los_Angeles_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Los_Cabos_International_Airport">http://en.wikipedia.org/wiki/Los_Cabos_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Los_Rodeos_Airport">http://en.wikipedia.org/wiki/Los_Rodeos_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Louis_Armstrong_New_Orleans_International_Airport">http://en.wikipedia.org/wiki/Louis_Armstrong_New_Orleans_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Louisville_International_Airport">http://en.wikipedia.org/wiki/Louisville_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lubumbashi_International_Airport">http://en.wikipedia.org/wiki/Lubumbashi_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Luis_Mu%C3%B1oz_Mar%C3%ADn_International_Airport">http://en.wikipedia.org/wiki/Luis_Mu%C3%B1oz_Mar%C3%ADn_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lule%C3%A5_Airport">http://en.wikipedia.org/wiki/Lule%C3%A5_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lungi_International_Airport">http://en.wikipedia.org/wiki/Lungi_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lusaka_International_Airport">http://en.wikipedia.org/wiki/Lusaka_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Luxembourg-Findel_International_Airport">http://en.wikipedia.org/wiki/Luxembourg-Findel_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Luxor_International_Airport">http://en.wikipedia.org/wiki/Luxor_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lviv_International_Airport">http://en.wikipedia.org/wiki/Lviv_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lynden_Pindling_International_Airport">http://en.wikipedia.org/wiki/Lynden_Pindling_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Lyon-Saint_Exup%C3%A9ry_Airport">http://en.wikipedia.org/wiki/Lyon-Saint_Exup%C3%A9ry_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/M._R._%C5%A0tef%C3%A1nik_Airport">http://en.wikipedia.org/wiki/M._R._%C5%A0tef%C3%A1nik_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Macau_International_Airport">http://en.wikipedia.org/wiki/Macau_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Mactan-Cebu_International_Airport">http://en.wikipedia.org/wiki/Mactan-Cebu_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Madeira_Airport">http://en.wikipedia.org/wiki/Madeira_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Madrid_Barajas_International_Airport">http://en.wikipedia.org/wiki/Madrid_Barajas_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Madurai_Airport">http://en.wikipedia.org/wiki/Madurai_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Maiduguri_International_Airport">http://en.wikipedia.org/wiki/Maiduguri_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Mal%C3%A9_International_Airport">http://en.wikipedia.org/wiki/Mal%C3%A9_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Mallam_Aminu_Kano_International_Airport">http://en.wikipedia.org/wiki/Mallam_Aminu_Kano_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Malpensa_Airport">http://en.wikipedia.org/wiki/Malpensa_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Malta_International_Airport">http://en.wikipedia.org/wiki/Malta_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Manas_International_Airport">http://en.wikipedia.org/wiki/Manas_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Manchester-Boston_Regional_Airport">http://en.wikipedia.org/wiki/Manchester-Boston_Regional_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Manchester_Airport">http://en.wikipedia.org/wiki/Manchester_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Mandalay_International_Airport">http://en.wikipedia.org/wiki/Mandalay_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Manta_Air_Base">http://en.wikipedia.org/wiki/Manta_Air_Base</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Manuel_Crescencio_Rej%C3%B3n_International_Airport">http://en.wikipedia.org/wiki/Manuel_Crescencio_Rej%C3%B3n_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Manuel_M%C3%A1rquez_de_Le%C3%B3n_International_Airport">http://en.wikipedia.org/wiki/Manuel_M%C3%A1rquez_de_Le%C3%B3n_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Maputo_International_Airport">http://en.wikipedia.org/wiki/Maputo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Marco_Polo_International_Airport">http://en.wikipedia.org/wiki/Marco_Polo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Marechal_Cunha_Machado_International_Airport">http://en.wikipedia.org/wiki/Marechal_Cunha_Machado_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Marechal_Rondon_International_Airport">http://en.wikipedia.org/wiki/Marechal_Rondon_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Mariscal_Sucre_International_Airport">http://en.wikipedia.org/wiki/Mariscal_Sucre_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Marka_Airport">http://en.wikipedia.org/wiki/Marka_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Marseille_Provence_Airport">http://en.wikipedia.org/wiki/Marseille_Provence_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Marshall_Islands_International_Airport">http://en.wikipedia.org/wiki/Marshall_Islands_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Mart%C3%ADn_Miguel_de_G%C3%BCemes_Airport">http://en.wikipedia.org/wiki/Mart%C3%ADn_Miguel_de_G%C3%BCemes_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Mashhad_International_Airport">http://en.wikipedia.org/wiki/Mashhad_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Mataveri_International_Airport">http://en.wikipedia.org/wiki/Mataveri_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Mbuji_Mayi_Airport">http://en.wikipedia.org/wiki/Mbuji_Mayi_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/McCarran_International_Airport">http://en.wikipedia.org/wiki/McCarran_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/McGhee_Tyson_Airport">http://en.wikipedia.org/wiki/McGhee_Tyson_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/McNary_Field">http://en.wikipedia.org/wiki/McNary_Field</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Mehrabad_International_Airport">http://en.wikipedia.org/wiki/Mehrabad_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Melbourne_Airport">http://en.wikipedia.org/wiki/Melbourne_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Memphis_International_Airport">http://en.wikipedia.org/wiki/Memphis_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Menara_International_Airport">http://en.wikipedia.org/wiki/Menara_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Mexico_City_International_Airport">http://en.wikipedia.org/wiki/Mexico_City_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Miami_International_Airport">http://en.wikipedia.org/wiki/Miami_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Minangkabau_International_Airport">http://en.wikipedia.org/wiki/Minangkabau_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ministro_Pistarini_International_Airport">http://en.wikipedia.org/wiki/Ministro_Pistarini_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Minneapolis-Saint_Paul_International_Airport">http://en.wikipedia.org/wiki/Minneapolis-Saint_Paul_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Minot_International_Airport">http://en.wikipedia.org/wiki/Minot_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Minsk_International_Airport">http://en.wikipedia.org/wiki/Minsk_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Missoula_International_Airport">http://en.wikipedia.org/wiki/Missoula_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Mohamed_Boudiaf_International_Airport">http://en.wikipedia.org/wiki/Mohamed_Boudiaf_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Mohammed_V_International_Airport">http://en.wikipedia.org/wiki/Mohammed_V_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Moi_International_Airport">http://en.wikipedia.org/wiki/Moi_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Montgomery_Regional_Airport">http://en.wikipedia.org/wiki/Montgomery_Regional_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Montr%C3%A9al-Mirabel_International_Airport">http://en.wikipedia.org/wiki/Montr%C3%A9al-Mirabel_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Montr%C3%A9al-Pierre_Elliott_Trudeau_International_Airport">http://en.wikipedia.org/wiki/Montr%C3%A9al-Pierre_Elliott_Trudeau_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Moshoeshoe_I_International_Airport">http://en.wikipedia.org/wiki/Moshoeshoe_I_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Mosul_International_Airport">http://en.wikipedia.org/wiki/Mosul_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Mudanjiang_Hailang_Airport">http://en.wikipedia.org/wiki/Mudanjiang_Hailang_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Multan_International_Airport">http://en.wikipedia.org/wiki/Multan_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Mundo_Maya_International_Airport">http://en.wikipedia.org/wiki/Mundo_Maya_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Munich_Airport">http://en.wikipedia.org/wiki/Munich_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Munich_International_Airport">http://en.wikipedia.org/wiki/Munich_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Murtala_Mohammed_International_Airport">http://en.wikipedia.org/wiki/Murtala_Mohammed_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/N&apos;Djamena_International_Airport">http://en.wikipedia.org/wiki/N&apos;Djamena_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Nadi_International_Airport">http://en.wikipedia.org/wiki/Nadi_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Nagoya_Airfield">http://en.wikipedia.org/wiki/Nagoya_Airfield</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Nanchang_Changbei_International_Airport">http://en.wikipedia.org/wiki/Nanchang_Changbei_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Nanjing_Lukou_International_Airport">http://en.wikipedia.org/wiki/Nanjing_Lukou_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Nanning_Wuxu_International_Airport">http://en.wikipedia.org/wiki/Nanning_Wuxu_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Naples_International_Airport">http://en.wikipedia.org/wiki/Naples_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Narita_International_Airport">http://en.wikipedia.org/wiki/Narita_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Narsarsuaq_Airport">http://en.wikipedia.org/wiki/Narsarsuaq_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Nashville_International_Airport">http://en.wikipedia.org/wiki/Nashville_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Nauru_International_Airport">http://en.wikipedia.org/wiki/Nauru_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Nausori_International_Airport">http://en.wikipedia.org/wiki/Nausori_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Netaji_Subhash_Chandra_Bose_International_Airport">http://en.wikipedia.org/wiki/Netaji_Subhash_Chandra_Bose_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Newark_Liberty_International_Airport">http://en.wikipedia.org/wiki/Newark_Liberty_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Newcastle_Airport">http://en.wikipedia.org/wiki/Newcastle_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ngurah_Rai_Airport">http://en.wikipedia.org/wiki/Ngurah_Rai_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ningbo_Lishe_International_Airport">http://en.wikipedia.org/wiki/Ningbo_Lishe_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ninoy_Aquino_International_Airport">http://en.wikipedia.org/wiki/Ninoy_Aquino_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Niue_International_Airport">http://en.wikipedia.org/wiki/Niue_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Nizhny_Novgorod_International_Airport">http://en.wikipedia.org/wiki/Nizhny_Novgorod_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Nnamdi_Azikiwe_International_Airport">http://en.wikipedia.org/wiki/Nnamdi_Azikiwe_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Nogales_International_Airport_(Mexico)">http://en.wikipedia.org/wiki/Nogales_International_Airport_(Mexico)</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Noi_Bai_International_Airport">http://en.wikipedia.org/wiki/Noi_Bai_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Nome_Airport">http://en.wikipedia.org/wiki/Nome_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Norfolk_International_Airport">http://en.wikipedia.org/wiki/Norfolk_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Norfolk_Island_Airport">http://en.wikipedia.org/wiki/Norfolk_Island_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Norman_Manley_International_Airport">http://en.wikipedia.org/wiki/Norman_Manley_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Norrk%C3%B6ping_Airport">http://en.wikipedia.org/wiki/Norrk%C3%B6ping_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/North_Bay/Jack_Garland_Airport">http://en.wikipedia.org/wiki/North_Bay/Jack_Garland_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Nouadhibou_International_Airport">http://en.wikipedia.org/wiki/Nouadhibou_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Nouakchott_International_Airport">http://en.wikipedia.org/wiki/Nouakchott_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Nova_Lisboa_Airport">http://en.wikipedia.org/wiki/Nova_Lisboa_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Nueva_Hesperides_International_Airport">http://en.wikipedia.org/wiki/Nueva_Hesperides_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Nuremberg_Airport">http://en.wikipedia.org/wiki/Nuremberg_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/O%C4%9Fuzeli_Airport">http://en.wikipedia.org/wiki/O%C4%9Fuzeli_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/O&apos;Hare_International_Airport">http://en.wikipedia.org/wiki/O&apos;Hare_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/OR_Tambo_International_Airport">http://en.wikipedia.org/wiki/OR_Tambo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Oakland_International_Airport">http://en.wikipedia.org/wiki/Oakland_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Odessa_International_Airport">http://en.wikipedia.org/wiki/Odessa_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Okadama_Airport">http://en.wikipedia.org/wiki/Okadama_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Omsk_Tsentralny_Airport">http://en.wikipedia.org/wiki/Omsk_Tsentralny_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Oran_Es_S%C3%A9nia_Airport">http://en.wikipedia.org/wiki/Oran_Es_S%C3%A9nia_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Orio_al_Serio_Airport">http://en.wikipedia.org/wiki/Orio_al_Serio_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Orlando_International_Airport">http://en.wikipedia.org/wiki/Orlando_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Orly_Airport_(Paris)">http://en.wikipedia.org/wiki/Orly_Airport_(Paris)</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Osaka_International_Airport">http://en.wikipedia.org/wiki/Osaka_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Osvaldo_Vieira_International_Airport">http://en.wikipedia.org/wiki/Osvaldo_Vieira_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ottawa_Macdonald-Cartier_International_Airport">http://en.wikipedia.org/wiki/Ottawa_Macdonald-Cartier_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ouagadougou_Airport">http://en.wikipedia.org/wiki/Ouagadougou_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Oulu_Airport">http://en.wikipedia.org/wiki/Oulu_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Owen_Roberts_International_Airport">http://en.wikipedia.org/wiki/Owen_Roberts_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Pago_Pago_International_Airport">http://en.wikipedia.org/wiki/Pago_Pago_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Palanga_International_Airport">http://en.wikipedia.org/wiki/Palanga_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Palau_International_Airport">http://en.wikipedia.org/wiki/Palau_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Palermo_International_Airport">http://en.wikipedia.org/wiki/Palermo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Palm_Beach_International_Airport">http://en.wikipedia.org/wiki/Palm_Beach_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Palma_de_Mallorca_Airport">http://en.wikipedia.org/wiki/Palma_de_Mallorca_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Palmerston_North_International_Airport">http://en.wikipedia.org/wiki/Palmerston_North_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Palonegro_International_Airport">http://en.wikipedia.org/wiki/Palonegro_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Paphos_International_Airport">http://en.wikipedia.org/wiki/Paphos_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Paysand%C3%BA_Airport">http://en.wikipedia.org/wiki/Paysand%C3%BA_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Peace_River_Airport">http://en.wikipedia.org/wiki/Peace_River_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Penang_International_Airport">http://en.wikipedia.org/wiki/Penang_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Perth_Airport">http://en.wikipedia.org/wiki/Perth_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Peshawar_International_Airport">http://en.wikipedia.org/wiki/Peshawar_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Philadelphia_International_Airport">http://en.wikipedia.org/wiki/Philadelphia_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Philip_S._W._Goldson_International_Airport">http://en.wikipedia.org/wiki/Philip_S._W._Goldson_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Phnom_Penh_International_Airport">http://en.wikipedia.org/wiki/Phnom_Penh_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Phoenix_Sky_Harbor_International_Airport">http://en.wikipedia.org/wiki/Phoenix_Sky_Harbor_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Phuket_International_Airport">http://en.wikipedia.org/wiki/Phuket_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Piedmont_Triad_International_Airport">http://en.wikipedia.org/wiki/Piedmont_Triad_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Pierre_Regional_Airport">http://en.wikipedia.org/wiki/Pierre_Regional_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Piloto_Civil_Norberto_Fern%C3%A1ndez_International_Airport">http://en.wikipedia.org/wiki/Piloto_Civil_Norberto_Fern%C3%A1ndez_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Pinto_Martins_International_Airport">http://en.wikipedia.org/wiki/Pinto_Martins_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Pittsburgh_International_Airport">http://en.wikipedia.org/wiki/Pittsburgh_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Plan_de_Guadalupe_International_Airport">http://en.wikipedia.org/wiki/Plan_de_Guadalupe_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Playa_de_Oro_International_Airport">http://en.wikipedia.org/wiki/Playa_de_Oro_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Podgorica_Airport">http://en.wikipedia.org/wiki/Podgorica_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Pohnpei_International_Airport">http://en.wikipedia.org/wiki/Pohnpei_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Point_Salines_International_Airport">http://en.wikipedia.org/wiki/Point_Salines_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Polokwane_International_Airport">http://en.wikipedia.org/wiki/Polokwane_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Polonia_International_Airport">http://en.wikipedia.org/wiki/Polonia_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ponciano_Arriaga_International_Airport">http://en.wikipedia.org/wiki/Ponciano_Arriaga_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ponta_Por%C3%A3_International_Airport">http://en.wikipedia.org/wiki/Ponta_Por%C3%A3_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Port_Bouet_Airport">http://en.wikipedia.org/wiki/Port_Bouet_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Port_Columbus_International_Airport">http://en.wikipedia.org/wiki/Port_Columbus_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Port_Elizabeth_Airport">http://en.wikipedia.org/wiki/Port_Elizabeth_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Port_Harcourt_International_Airport">http://en.wikipedia.org/wiki/Port_Harcourt_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Port_Hedland_International_Airport">http://en.wikipedia.org/wiki/Port_Hedland_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Port_Sudan_New_International_Airport">http://en.wikipedia.org/wiki/Port_Sudan_New_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Portland_International_Airport">http://en.wikipedia.org/wiki/Portland_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Praia_International_Airport">http://en.wikipedia.org/wiki/Praia_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Presidente_Castro_Pinto_International_Airport">http://en.wikipedia.org/wiki/Presidente_Castro_Pinto_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Presidente_Nicolau_Lobato_International_Airport">http://en.wikipedia.org/wiki/Presidente_Nicolau_Lobato_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Prince_George_Airport">http://en.wikipedia.org/wiki/Prince_George_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Prince_Mohammad_Bin_Abdulaziz_Airport">http://en.wikipedia.org/wiki/Prince_Mohammad_Bin_Abdulaziz_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Prince_Rupert_Airport">http://en.wikipedia.org/wiki/Prince_Rupert_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Prince_Said_Ibrahim_International_Airport">http://en.wikipedia.org/wiki/Prince_Said_Ibrahim_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Princess_Juliana_International_Airport">http://en.wikipedia.org/wiki/Princess_Juliana_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Pristina_International_Airport_Adem_Jashari">http://en.wikipedia.org/wiki/Pristina_International_Airport_Adem_Jashari</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Pulkovo_Airport">http://en.wikipedia.org/wiki/Pulkovo_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Pune_Airport">http://en.wikipedia.org/wiki/Pune_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Punta_Cana_International_Airport">http://en.wikipedia.org/wiki/Punta_Cana_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Qingdao_Liuting_International_Airport">http://en.wikipedia.org/wiki/Qingdao_Liuting_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Qu%C3%A9bec/Jean_Lesage_International_Airport">http://en.wikipedia.org/wiki/Qu%C3%A9bec/Jean_Lesage_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Quatro_de_Fevereiro_Airport">http://en.wikipedia.org/wiki/Quatro_de_Fevereiro_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Queen_Alia_International_Airport">http://en.wikipedia.org/wiki/Queen_Alia_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Queen_Beatrix_International_Airport">http://en.wikipedia.org/wiki/Queen_Beatrix_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Quer%C3%A9taro_International_Airport">http://en.wikipedia.org/wiki/Quer%C3%A9taro_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Quetta_International_Airport">http://en.wikipedia.org/wiki/Quetta_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Quetzalc%C3%B3atl_International_Airport">http://en.wikipedia.org/wiki/Quetzalc%C3%B3atl_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Radin_Inten_II_Airport">http://en.wikipedia.org/wiki/Radin_Inten_II_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Rafael_N%C3%BA%C3%B1ez_International_Airport">http://en.wikipedia.org/wiki/Rafael_N%C3%BA%C3%B1ez_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Raipur_Airport">http://en.wikipedia.org/wiki/Raipur_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Raja_Sansi_International_Airport">http://en.wikipedia.org/wiki/Raja_Sansi_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Rajiv_Gandhi_International_Airport">http://en.wikipedia.org/wiki/Rajiv_Gandhi_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Rajkot_Airport">http://en.wikipedia.org/wiki/Rajkot_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Raleigh-Durham_International_Airport">http://en.wikipedia.org/wiki/Raleigh-Durham_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ram%C3%B3n_Villeda_Morales_International_Airport">http://en.wikipedia.org/wiki/Ram%C3%B3n_Villeda_Morales_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Rarotonga_International_Airport">http://en.wikipedia.org/wiki/Rarotonga_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Regina_International_Airport">http://en.wikipedia.org/wiki/Regina_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Reno-Tahoe_International_Airport">http://en.wikipedia.org/wiki/Reno-Tahoe_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Repulse_Bay_Airport">http://en.wikipedia.org/wiki/Repulse_Bay_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Resolute_Bay_Airport">http://en.wikipedia.org/wiki/Resolute_Bay_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Reykjav%C3%ADk_Airport">http://en.wikipedia.org/wiki/Reykjav%C3%ADk_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Richmond_International_Airport">http://en.wikipedia.org/wiki/Richmond_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Rick_Husband_Amarillo_International_Airport">http://en.wikipedia.org/wiki/Rick_Husband_Amarillo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Riga_International_Airport">http://en.wikipedia.org/wiki/Riga_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Rio_de_Janeiro-Gale%C3%A3o_International_Airport">http://en.wikipedia.org/wiki/Rio_de_Janeiro-Gale%C3%A3o_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Robert_L._Bradshaw_International_Airport">http://en.wikipedia.org/wiki/Robert_L._Bradshaw_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Roberts_International_Airport">http://en.wikipedia.org/wiki/Roberts_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Rockhampton_Airport">http://en.wikipedia.org/wiki/Rockhampton_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Rodriguez_Ballon_International_Airport">http://en.wikipedia.org/wiki/Rodriguez_Ballon_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ronald_Reagan_Washington_National_Airport">http://en.wikipedia.org/wiki/Ronald_Reagan_Washington_National_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Rosario_%E2%80%93_Islas_Malvinas_International_Airport">http://en.wikipedia.org/wiki/Rosario_%E2%80%93_Islas_Malvinas_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Rostov-on-Don_Airport">http://en.wikipedia.org/wiki/Rostov-on-Don_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Rota_International_Airport">http://en.wikipedia.org/wiki/Rota_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Rotterdam_The_Hague_Airport">http://en.wikipedia.org/wiki/Rotterdam_The_Hague_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Rovaniemi_Airport">http://en.wikipedia.org/wiki/Rovaniemi_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ruzyn%C4%9B_International_Airport">http://en.wikipedia.org/wiki/Ruzyn%C4%9B_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/S%C3%A3o_Paulo-Guarulhos_International_Airport">http://en.wikipedia.org/wiki/S%C3%A3o_Paulo-Guarulhos_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/S%C3%A3o_Tom%C3%A9_International_Airport">http://en.wikipedia.org/wiki/S%C3%A3o_Tom%C3%A9_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sa%C3%AFss_Airport">http://en.wikipedia.org/wiki/Sa%C3%AFss_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sabiha_G%C3%B6k%C3%A7en_International_Airport">http://en.wikipedia.org/wiki/Sabiha_G%C3%B6k%C3%A7en_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sacramento_International_Airport">http://en.wikipedia.org/wiki/Sacramento_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sadiq_Abubakar_III_International_Airport">http://en.wikipedia.org/wiki/Sadiq_Abubakar_III_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sahnewal_Airport">http://en.wikipedia.org/wiki/Sahnewal_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Saint_John_Airport">http://en.wikipedia.org/wiki/Saint_John_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Saipan_International_Airport">http://en.wikipedia.org/wiki/Saipan_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Salgado_Filho_International_Airport">http://en.wikipedia.org/wiki/Salgado_Filho_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Salt_Lake_City_International_Airport">http://en.wikipedia.org/wiki/Salt_Lake_City_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/San_Antonio_International_Airport">http://en.wikipedia.org/wiki/San_Antonio_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/San_Carlos_de_Bariloche_Airport">http://en.wikipedia.org/wiki/San_Carlos_de_Bariloche_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/San_Diego_International_Airport">http://en.wikipedia.org/wiki/San_Diego_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/San_Francisco_International_Airport">http://en.wikipedia.org/wiki/San_Francisco_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/San_Jose_International_Airport">http://en.wikipedia.org/wiki/San_Jose_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sana&apos;a_International_Airport">http://en.wikipedia.org/wiki/Sana&apos;a_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sangster_International_Airport">http://en.wikipedia.org/wiki/Sangster_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Santa_Barbara_Airport">http://en.wikipedia.org/wiki/Santa_Barbara_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Santa_Bernardina_International_Airport">http://en.wikipedia.org/wiki/Santa_Bernardina_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Santa_Genoveva_Airport">http://en.wikipedia.org/wiki/Santa_Genoveva_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Santo-Pekoa_International_Airport">http://en.wikipedia.org/wiki/Santo-Pekoa_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Santos_Air_Force_Base">http://en.wikipedia.org/wiki/Santos_Air_Force_Base</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sanya_Phoenix_International_Airport">http://en.wikipedia.org/wiki/Sanya_Phoenix_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sarajevo_International_Airport">http://en.wikipedia.org/wiki/Sarajevo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Saratov_Tsentralny_Airport">http://en.wikipedia.org/wiki/Saratov_Tsentralny_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sardar_Vallabhbhai_Patel_International_Airport">http://en.wikipedia.org/wiki/Sardar_Vallabhbhai_Patel_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Saskatoon/John_G._Diefenbaker_International_Airport">http://en.wikipedia.org/wiki/Saskatoon/John_G._Diefenbaker_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sault_Ste._Marie_Airport">http://en.wikipedia.org/wiki/Sault_Ste._Marie_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Savannah/Hilton_Head_International_Airport">http://en.wikipedia.org/wiki/Savannah/Hilton_Head_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Scholes_International_Airport_at_Galveston">http://en.wikipedia.org/wiki/Scholes_International_Airport_at_Galveston</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Seattle-Tacoma_International_Airport">http://en.wikipedia.org/wiki/Seattle-Tacoma_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Seeb_International_Airport">http://en.wikipedia.org/wiki/Seeb_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sendai_Airport">http://en.wikipedia.org/wiki/Sendai_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Senou_International_Airport">http://en.wikipedia.org/wiki/Senou_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Severomorsk-3">http://en.wikipedia.org/wiki/Severomorsk-3</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Seychelles_International_Airport">http://en.wikipedia.org/wiki/Seychelles_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Shah_Amanat_International_Airport">http://en.wikipedia.org/wiki/Shah_Amanat_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Shah_Makhdum_Airport">http://en.wikipedia.org/wiki/Shah_Makhdum_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Shahid_Ashrafi_Esfahani_Airport">http://en.wikipedia.org/wiki/Shahid_Ashrafi_Esfahani_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Shanghai_Hongqiao_International_Airport">http://en.wikipedia.org/wiki/Shanghai_Hongqiao_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Shanghai_Pudong_International_Airport">http://en.wikipedia.org/wiki/Shanghai_Pudong_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Shannon_Airport">http://en.wikipedia.org/wiki/Shannon_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sharjah_International_Airport">http://en.wikipedia.org/wiki/Sharjah_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sharm_el-Sheikh_International_Airport">http://en.wikipedia.org/wiki/Sharm_el-Sheikh_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Shenyang_Taoxian_International_Airport">http://en.wikipedia.org/wiki/Shenyang_Taoxian_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Shenzhen_airport">http://en.wikipedia.org/wiki/Shenzhen_airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sheremetyevo_International_Airport">http://en.wikipedia.org/wiki/Sheremetyevo_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Shijiazhuang_Zhengding_International_Airport">http://en.wikipedia.org/wiki/Shijiazhuang_Zhengding_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Shiraz_International_Airport">http://en.wikipedia.org/wiki/Shiraz_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Shreveport_Regional_Airport">http://en.wikipedia.org/wiki/Shreveport_Regional_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Silvio_Pettirossi_International_Airport">http://en.wikipedia.org/wiki/Silvio_Pettirossi_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sim%C3%B3n_Bol%C3%ADvar_International_Airport">http://en.wikipedia.org/wiki/Sim%C3%B3n_Bol%C3%ADvar_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Simferopol_International_Airport">http://en.wikipedia.org/wiki/Simferopol_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Singapore_Changi_Airport">http://en.wikipedia.org/wiki/Singapore_Changi_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sioux_Falls_Regional_Airport">http://en.wikipedia.org/wiki/Sioux_Falls_Regional_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sir_Seewoosagur_Ramgoolam_International_Airport">http://en.wikipedia.org/wiki/Sir_Seewoosagur_Ramgoolam_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sir_Seretse_Khama_International_Airport">http://en.wikipedia.org/wiki/Sir_Seretse_Khama_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sitka_Rocky_Gutierrez_Airport">http://en.wikipedia.org/wiki/Sitka_Rocky_Gutierrez_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Skopje_Airport">http://en.wikipedia.org/wiki/Skopje_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Soekarno-Hatta_International_Airport">http://en.wikipedia.org/wiki/Soekarno-Hatta_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sofia_Airport">http://en.wikipedia.org/wiki/Sofia_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Solapur_Airport">http://en.wikipedia.org/wiki/Solapur_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sonari_Airport">http://en.wikipedia.org/wiki/Sonari_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Southwest_Florida_International_Airport">http://en.wikipedia.org/wiki/Southwest_Florida_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Spokane_International_Airport">http://en.wikipedia.org/wiki/Spokane_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Springfield/Branson_National_Airport">http://en.wikipedia.org/wiki/Springfield/Branson_National_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Srinagar_Airport">http://en.wikipedia.org/wiki/Srinagar_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/St._John&apos;s_International_Airport">http://en.wikipedia.org/wiki/St._John&apos;s_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Stavanger_Airport,_Sola">http://en.wikipedia.org/wiki/Stavanger_Airport,_Sola</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Stockholm-Arlanda_Airport">http://en.wikipedia.org/wiki/Stockholm-Arlanda_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Stockholm-Bromma_Airport">http://en.wikipedia.org/wiki/Stockholm-Bromma_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Stockholm-Skavsta_Airport">http://en.wikipedia.org/wiki/Stockholm-Skavsta_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Strasbourg_Airport">http://en.wikipedia.org/wiki/Strasbourg_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Stuttgart_Airport">http://en.wikipedia.org/wiki/Stuttgart_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sudbury_Airport">http://en.wikipedia.org/wiki/Sudbury_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sultan_Hasanuddin_International_Airport">http://en.wikipedia.org/wiki/Sultan_Hasanuddin_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sultan_Mahmud_Badaruddin_II_Airport">http://en.wikipedia.org/wiki/Sultan_Mahmud_Badaruddin_II_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sultan_Syarif_Qasim_II_International_Airport">http://en.wikipedia.org/wiki/Sultan_Syarif_Qasim_II_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sumburgh_Airport">http://en.wikipedia.org/wiki/Sumburgh_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sunan_International_Airport">http://en.wikipedia.org/wiki/Sunan_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sunchon_Airport">http://en.wikipedia.org/wiki/Sunchon_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Surat_Airport">http://en.wikipedia.org/wiki/Surat_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Surgut_Airport">http://en.wikipedia.org/wiki/Surgut_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Svalbard_Airport%2C_Longyear">http://en.wikipedia.org/wiki/Svalbard_Airport%2C_Longyear</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Sydney_Airport_(Nova_Scotia)">http://en.wikipedia.org/wiki/Sydney_Airport_(Nova_Scotia)</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Syracuse_Hancock_International_Airport">http://en.wikipedia.org/wiki/Syracuse_Hancock_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/T._F._Green_Airport">http://en.wikipedia.org/wiki/T._F._Green_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ta&apos;izz_International_Airport">http://en.wikipedia.org/wiki/Ta&apos;izz_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Taba_International_Airport">http://en.wikipedia.org/wiki/Taba_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tabatinga_International_Airport">http://en.wikipedia.org/wiki/Tabatinga_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tabriz_International_Airport">http://en.wikipedia.org/wiki/Tabriz_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Taichung_Airport">http://en.wikipedia.org/wiki/Taichung_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tainan_Airport">http://en.wikipedia.org/wiki/Tainan_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Taiwan_Taoyuan_International_Airport">http://en.wikipedia.org/wiki/Taiwan_Taoyuan_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Taiyuan_Wusu_International_Airport">http://en.wikipedia.org/wiki/Taiyuan_Wusu_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Talagi_Airport">http://en.wikipedia.org/wiki/Talagi_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tallahassee_Regional_Airport">http://en.wikipedia.org/wiki/Tallahassee_Regional_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tallinn_Airport">http://en.wikipedia.org/wiki/Tallinn_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tampa_International_Airport">http://en.wikipedia.org/wiki/Tampa_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tan_Son_Nhat_International_Airport">http://en.wikipedia.org/wiki/Tan_Son_Nhat_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tancredo_Neves_International_Airport">http://en.wikipedia.org/wiki/Tancredo_Neves_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tangier_Ibn_Battouta_Airport">http://en.wikipedia.org/wiki/Tangier_Ibn_Battouta_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tapachula_International_Airport">http://en.wikipedia.org/wiki/Tapachula_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tashkent_International_Airport">http://en.wikipedia.org/wiki/Tashkent_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tbilisi_International_Airport">http://en.wikipedia.org/wiki/Tbilisi_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Teresina_Airport">http://en.wikipedia.org/wiki/Teresina_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Terrance_B._Lettsome_International_Airport">http://en.wikipedia.org/wiki/Terrance_B._Lettsome_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Thessaloniki_International_Airport%2C_%22Macedonia%22">http://en.wikipedia.org/wiki/Thessaloniki_International_Airport%2C_%22Macedonia%22</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Thompson_Airport">http://en.wikipedia.org/wiki/Thompson_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Thunder_Bay_International_Airport">http://en.wikipedia.org/wiki/Thunder_Bay_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tianjin_Binhai_International_Airport">http://en.wikipedia.org/wiki/Tianjin_Binhai_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Timmins_Airport">http://en.wikipedia.org/wiki/Timmins_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tirana_International_Airport_N%C3%ABn%C3%AB_Tereza">http://en.wikipedia.org/wiki/Tirana_International_Airport_N%C3%ABn%C3%AB_Tereza</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tiruchirappalli_Airport">http://en.wikipedia.org/wiki/Tiruchirappalli_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tob%C3%ADas_Bola%C3%B1os_International_Airport">http://en.wikipedia.org/wiki/Tob%C3%ADas_Bola%C3%B1os_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tocumen_International_Airport">http://en.wikipedia.org/wiki/Tocumen_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tolmachevo_Airport">http://en.wikipedia.org/wiki/Tolmachevo_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Toncont%C3%ADn_International_Airport">http://en.wikipedia.org/wiki/Toncont%C3%ADn_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Toronto_Pearson_International_Airport">http://en.wikipedia.org/wiki/Toronto_Pearson_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Toulouse-Blagnac_Airport">http://en.wikipedia.org/wiki/Toulouse-Blagnac_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Toussaint_Louverture_International_Airport">http://en.wikipedia.org/wiki/Toussaint_Louverture_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Townsville_Airport">http://en.wikipedia.org/wiki/Townsville_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tribhuvan_International_Airport">http://en.wikipedia.org/wiki/Tribhuvan_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tripoli_International_Airport">http://en.wikipedia.org/wiki/Tripoli_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Trivandrum_International_Airport">http://en.wikipedia.org/wiki/Trivandrum_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Troms%C3%B8_Airport">http://en.wikipedia.org/wiki/Troms%C3%B8_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Trondheim_Airport%2C_V%C3%A6rnes">http://en.wikipedia.org/wiki/Trondheim_Airport%2C_V%C3%A6rnes</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tucson_International_Airport">http://en.wikipedia.org/wiki/Tucson_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tulsa_International_Airport">http://en.wikipedia.org/wiki/Tulsa_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Tunis-Carthage_International_Airport">http://en.wikipedia.org/wiki/Tunis-Carthage_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Turbat_International_Airport">http://en.wikipedia.org/wiki/Turbat_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Turin_International_Airport">http://en.wikipedia.org/wiki/Turin_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/U-Tapao_International_Airport">http://en.wikipedia.org/wiki/U-Tapao_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ufa_International_Airport">http://en.wikipedia.org/wiki/Ufa_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Ulsan_Airport">http://en.wikipedia.org/wiki/Ulsan_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/V%C3%A1gar_Airport">http://en.wikipedia.org/wiki/V%C3%A1gar_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/VC_Bird_International_Airport">http://en.wikipedia.org/wiki/VC_Bird_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Vadodara_Airport">http://en.wikipedia.org/wiki/Vadodara_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Val_de_C%C3%A3es_International_Airport">http://en.wikipedia.org/wiki/Val_de_C%C3%A3es_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Valencia_Airport">http://en.wikipedia.org/wiki/Valencia_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Vancouver_International_Airport">http://en.wikipedia.org/wiki/Vancouver_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Varanasi_Airport">http://en.wikipedia.org/wiki/Varanasi_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Vava&apos;u_International_Airport">http://en.wikipedia.org/wiki/Vava&apos;u_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Venustiano_Carranza_International_Airport">http://en.wikipedia.org/wiki/Venustiano_Carranza_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Vi%C3%B1a_del_Mar_Airport">http://en.wikipedia.org/wiki/Vi%C3%B1a_del_Mar_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Victoria_Falls_Airport">http://en.wikipedia.org/wiki/Victoria_Falls_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Victoria_International_Airport">http://en.wikipedia.org/wiki/Victoria_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Vienna_International_Airport">http://en.wikipedia.org/wiki/Vienna_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Vijayawada_Airport">http://en.wikipedia.org/wiki/Vijayawada_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Villanova_d&apos;Albenga_International_Airport">http://en.wikipedia.org/wiki/Villanova_d&apos;Albenga_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Vilnius_International_Airport">http://en.wikipedia.org/wiki/Vilnius_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Viracopos-Campinas_International_Airport">http://en.wikipedia.org/wiki/Viracopos-Campinas_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Viru_Viru_International_Airport">http://en.wikipedia.org/wiki/Viru_Viru_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Visakhapatnam_Airport">http://en.wikipedia.org/wiki/Visakhapatnam_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Vladivostok_International_Airport">http://en.wikipedia.org/wiki/Vladivostok_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Volgograd_International_Airport">http://en.wikipedia.org/wiki/Volgograd_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Voronezh_International_Airport">http://en.wikipedia.org/wiki/Voronezh_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Wabush_Airport">http://en.wikipedia.org/wiki/Wabush_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Warsaw_Frederic_Chopin_Airport">http://en.wikipedia.org/wiki/Warsaw_Frederic_Chopin_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Washington_Dulles_International_Airport">http://en.wikipedia.org/wiki/Washington_Dulles_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Wattay_International_Airport">http://en.wikipedia.org/wiki/Wattay_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Wellington_International_Airport">http://en.wikipedia.org/wiki/Wellington_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Wewak_International_Airport">http://en.wikipedia.org/wiki/Wewak_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Whitehorse_International_Airport">http://en.wikipedia.org/wiki/Whitehorse_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Wiley_Post-Will_Rogers_Memorial_Airport">http://en.wikipedia.org/wiki/Wiley_Post-Will_Rogers_Memorial_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Will_Rogers_World_Airport">http://en.wikipedia.org/wiki/Will_Rogers_World_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Wilmington_International_Airport">http://en.wikipedia.org/wiki/Wilmington_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Windhoek_Hosea_Kutako_International_Airport">http://en.wikipedia.org/wiki/Windhoek_Hosea_Kutako_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Windsor_Airport">http://en.wikipedia.org/wiki/Windsor_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Winnipeg_James_Armstrong_Richardson_International_Airport">http://en.wikipedia.org/wiki/Winnipeg_James_Armstrong_Richardson_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Xi&apos;an_Xianyang_International_Airport">http://en.wikipedia.org/wiki/Xi&apos;an_Xianyang_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Xiamen_Gaoqi_International_Airport">http://en.wikipedia.org/wiki/Xiamen_Gaoqi_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Xoxocotl%C3%A1n_International_Airport">http://en.wikipedia.org/wiki/Xoxocotl%C3%A1n_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Yangon_International_Airport">http://en.wikipedia.org/wiki/Yangon_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Yangyang_International_Airport">http://en.wikipedia.org/wiki/Yangyang_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Yantai_Laishan_International_Airport">http://en.wikipedia.org/wiki/Yantai_Laishan_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Yaound%C3%A9_Nsimalen_International_Airport">http://en.wikipedia.org/wiki/Yaound%C3%A9_Nsimalen_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Yap_International_Airport">http://en.wikipedia.org/wiki/Yap_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Yeager_Airport">http://en.wikipedia.org/wiki/Yeager_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Yellowknife_Airport">http://en.wikipedia.org/wiki/Yellowknife_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Yeni%C5%9Fehir_Airport">http://en.wikipedia.org/wiki/Yeni%C5%9Fehir_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Z%C3%BCrich_Airport">http://en.wikipedia.org/wiki/Z%C3%BCrich_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Zagreb_Airport">http://en.wikipedia.org/wiki/Zagreb_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Zahedan_International_Airport">http://en.wikipedia.org/wiki/Zahedan_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Zamboanga_International_Airport">http://en.wikipedia.org/wiki/Zamboanga_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Zanzibar_International_Airport">http://en.wikipedia.org/wiki/Zanzibar_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Zaporizhia_International_Airport">http://en.wikipedia.org/wiki/Zaporizhia_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Zaria_Airport">http://en.wikipedia.org/wiki/Zaria_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Zhengzhou_Xinzheng_International_Airport">http://en.wikipedia.org/wiki/Zhengzhou_Xinzheng_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Zia_International_Airport">http://en.wikipedia.org/wiki/Zia_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Zumbi_dos_Palmares_International_Airport">http://en.wikipedia.org/wiki/Zumbi_dos_Palmares_International_Airport</option>';
+            wikipedia_options_str  += '<option value="http://en.wikipedia.org/wiki/Zvartnots_International_Airport">http://en.wikipedia.org/wiki/Zvartnots_International_Airport</option>';
+            sel_wikipedia.innerHTML = wikipedia_options_str;
+            div_wikipedia.appendChild(sel_wikipedia);
+            var lab_wikipedia = document.createElement('div');
+            lab_wikipedia.innerHTML = 'wikipedia';
+            lab_wikipedia.className = 'filterlabel';
+            div_wikipedia.appendChild(lab_wikipedia);
+            var reset_wikipedia = document.createElement('div');
+            reset_wikipedia.innerHTML = 'clear filter';
+            reset_wikipedia.className = 'filterlabel';
+            reset_wikipedia.onclick = function() {
+                var options = document.getElementById("sel_wikipedia").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_wikipedia.appendChild(reset_wikipedia);
+        </script>
+    </body>
+</html>
